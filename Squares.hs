@@ -32,7 +32,7 @@ squareOfBottomLine ((ah, av), (bh, bv))
   where l = bh - ah
 
 drawingContainsSegment :: Drawing -> ShapeLine -> Bool
-drawingContainsSegment [] s = False
+drawingContainsSegment [] _ = False
 drawingContainsSegment (l: ls) s = lineContainsSegment l s || drawingContainsSegment ls s
 
 drawingContainsSquare :: Drawing -> ShapeLine -> Bool
@@ -40,7 +40,6 @@ drawingContainsSquare d l = and $ map (drawingContainsSegment d) (squareOfBottom
 
 horizontalLines :: Drawing -> [ShapeLine]
 horizontalLines d = [l | l <- d, isHorizontal l]
-
 
 isHorizontal :: ShapeLine -> Bool
 isHorizontal ((_, av), (_, bv)) = av == bv
@@ -73,6 +72,9 @@ horizontalSegments d ((ah, av), (bh, _)) = [((ch, cv), (dh, dv)) | ch <- ps, dh 
 allSquaresOnLine :: Drawing -> ShapeLine -> [ShapeLine]
 allSquaresOnLine d l = [s | s <- horizontalSegments d l, isASquare d s]
 
+allSquaresOnDrawing :: Drawing -> [ShapeLine]
+allSquaresOnDrawing d = concat $ map (allSquaresOnLine myDrawing) (horizontalLines d)
+
 pointsCrossing :: Drawing -> ShapeLine -> [Integer]
 pointsCrossing d l = [fst (fst s) | s <- sortHorizontally (verticalLinesCrossing d l)]
 
@@ -89,9 +91,22 @@ drawDrawing :: Drawing -> Picture
 drawDrawing d = pictures $ map drawLine d
 
 drawLine :: ShapeLine -> Picture
-drawLine ((lp1, lp2), (lp3, lp4))  = Line [(fromIntegral lp1, fromIntegral lp2), (fromIntegral lp3, fromIntegral lp4)]
+drawLine ((lp1, lp2), (lp3, lp4)) = Line [(fromIntegral lp1, fromIntegral lp2), (fromIntegral lp3, fromIntegral lp4)]
+
+drawSolidSquare :: ShapeLine -> Picture
+drawSolidSquare ((ah, av), (bh, _)) = translate (fromIntegral ah) (fromIntegral av) $ rectangleSolid h v
+  where h = fromIntegral (bh - ah)
+        v = fromIntegral (bh - ah)
 
 drawMyLines :: Picture
-drawMyLines = translate (-250) (-250) $ drawDrawing myDrawing
+drawMyLines = drawDrawing myDrawing
 
-main = display (InWindow "Squares" (550, 550) (20, 20)) white $ drawMyLines
+-- Produce one frame of the animation
+frame :: Float -> Picture
+frame timeS = translate (-250) (-250) $ pictures $ [drawMyLines, drawSolidSquare (allSquaresOnDrawing myDrawing !! floor timeS),
+                          text $ show timeS]
+
+main :: IO ()
+main = animate (InWindow "Squares" (550, 550) (20, 20)) white $ frame
+
+-- main = display (InWindow "Squares" (550, 550) (20, 20)) white $ drawMyLines
