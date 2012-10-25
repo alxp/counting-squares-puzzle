@@ -1,0 +1,28 @@
+Name:                counting-squares-puzzle
+Version:             1.0.0.0
+License:             MIT
+License-file:        LICENSE
+Author:              Alexander O'Neill
+Maintainer:          aloneill@gmail.com
+Build-Type:          Simple
+Cabal-Version:       >=1.6
+Stability:           experimental
+Category:            Graphics
+Homepage:            
+Bug-reports:         
+Description:
+        Uses the gloss graphics library. Solves a puzzle where
+        the user is asked to count the number of squares in a
+        drawing.
+
+Synopsis:
+        Counts the number of squares in a drawing.
+
+Executable squares
+  Build-depends:
+        base           == 4.*,
+        gloss          == 1.7.*,
+  Main-is: Squares.hs
+  hs-source-dirs: squares
+  ghc-options:    -threaded -O2
+
