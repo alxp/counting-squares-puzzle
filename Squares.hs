@@ -1,6 +1,15 @@
 import Graphics.Gloss
-import Data.List
-import Model
+import Model (ShapeLine, Drawing, allSquaresOnDrawing)
+
+myDrawing :: Drawing
+myDrawing = [((0, 0), (400, 0)), ((400, 0), (400, 400)),
+             ((0, 0), (0, 400)), ((0, 400), (400, 400)),
+             ((100, 0), (100, 400)), ((200, 0), (200, 400)),
+             ((300, 0), (300, 400)),
+             ((0, 100), (400, 100)), ((0, 200), (400, 200)),
+             ((0, 300), (400, 300)),
+             ((150, 150), (250, 150)), ((150, 250), (250, 250)),
+             ((150, 150), (150, 250)), ((250, 150), (250, 250))]
 
 drawDrawing :: Drawing -> Picture
 drawDrawing d = pictures $ map drawLine d

@@ -6,15 +6,6 @@ type LinePoint = (Integer, Integer)
 type ShapeLine = (LinePoint, LinePoint)
 type Drawing = [ShapeLine]
 
-myDrawing :: Drawing
-myDrawing = [((0, 0), (400, 0)), ((400, 0), (400, 400)),
-             ((0, 0), (0, 400)), ((0, 400), (400, 400)),
-             ((100, 0), (100, 400)), ((200, 0), (200, 400)),
-             ((300, 0), (300, 400)),
-             ((0, 100), (400, 100)), ((0, 200), (400, 200)),
-             ((0, 300), (400, 300)),
-             ((150, 150), (250, 150)), ((150, 250), (250, 250)),
-             ((150, 150), (150, 250)), ((250, 150), (250, 250))]
 
 isASquare :: Drawing -> ShapeLine -> Bool
 isASquare d l = and [drawingContainsSegment d s | s <- squareOfBottomLine l]
@@ -75,7 +66,7 @@ allSquaresOnLine :: Drawing -> ShapeLine -> [ShapeLine]
 allSquaresOnLine d l = [s | s <- horizontalSegments d l, isASquare d s]
 
 allSquaresOnDrawing :: Drawing -> [ShapeLine]
-allSquaresOnDrawing d = concat $ map (allSquaresOnLine myDrawing) (horizontalLines d)
+allSquaresOnDrawing d = concat $ map (allSquaresOnLine d) (horizontalLines d)
 
 lineContainsSegment :: ShapeLine -> ShapeLine -> Bool
 lineContainsSegment ((ah, av), (bh, bv)) ((ch, cv), (dh, dv))
