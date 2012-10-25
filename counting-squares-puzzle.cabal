@@ -21,7 +21,7 @@ Synopsis:
 Executable squares
   Build-depends:
         base           == 4.*,
-        gloss          == 1.7.*,
+        gloss          == 1.7.*
   Main-is: Squares.hs
   hs-source-dirs: squares
   ghc-options:    -threaded -O2
