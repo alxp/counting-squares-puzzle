@@ -8,15 +8,19 @@ myDrawing = [((0, 0), (400, 0)), ((400, 0), (400, 400)),
              ((300, 0), (300, 400)),
              ((0, 100), (400, 100)), ((0, 200), (400, 200)),
              ((0, 300), (400, 300)),
-             ((150, 150), (250, 150)), ((150, 250), (250, 250)),
-             ((150, 150), (150, 250)), ((250, 150), (250, 250))]
+             ((150, 50), (250, 50)), ((150, 50), (150, 150)),
+             ((150, 150), (250, 150)), ((250, 50), (250, 150)),
+             ((150, 250), (250, 250)), ((150, 250), (150, 350)),
+             ((150, 350), (250, 350)), ((250, 250), (250, 350))]
+             
 
 drawDrawing :: Drawing -> Picture
 drawDrawing d = pictures $ map drawLine d
 
 drawLine :: ShapeLine -> Picture
-drawLine ((lp1, lp2), (lp3, lp4)) = Line [(fromIntegral lp1, fromIntegral lp2), (fromIntegral lp3, fromIntegral lp4)]
+drawLine ((ah, av), (bh, bv)) = Line [(fromIntegral ah, fromIntegral av), (fromIntegral bh, fromIntegral bv)]
 
+-- Draw a square given its bottom line
 drawSolidSquare :: ShapeLine -> Picture
 drawSolidSquare ((ah, av), (bh, _)) = translate (offset ah) (offset av) $ rectangleSolid h h
   where h = fromIntegral (bh - ah)
