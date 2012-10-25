@@ -22,9 +22,6 @@ drawingContainsSegment :: Drawing -> ShapeLine -> Bool
 drawingContainsSegment [] _ = False
 drawingContainsSegment (l: ls) s = lineContainsSegment l s || drawingContainsSegment ls s
 
-drawingContainsSquare :: Drawing -> ShapeLine -> Bool
-drawingContainsSquare d l = and $ map (drawingContainsSegment d) (squareOfBottomLine l)
-
 horizontalLines :: Drawing -> [ShapeLine]
 horizontalLines d = [l | l <- d, isHorizontal l]
 
